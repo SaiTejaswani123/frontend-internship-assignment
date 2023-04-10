@@ -42,54 +42,49 @@ class Home extends Component {
       })
       .catch(error => console.log(error));
   }
-
+  
   render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Search By:
-            <select
-              name="searchType"
-              value={this.state.searchType}
-              onChange={this.handleInputChange}
-            >
-              <option value="q">Title</option>
-              <option value="author">Author</option>
-            </select>
-          </label>
-          <input
-            type="text"
-            name="searchQuery"
-            value={this.state.searchQuery}
+  return (
+    <div>
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Search By:
+          <select
+            name="searchType"
+            value={this.state.searchType}
             onChange={this.handleInputChange}
-          />
-          <button type="submit">Search</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Published Date</th>
+          >
+            <option value="q">Title</option>
+            <option value="author">Author</option>
+          </select>
+        </label>
+        <input
+          type="text"
+          name="searchQuery"
+          value={this.state.searchQuery}
+          onChange={this.handleInputChange}
+        />
+        <button type="submit">Search</button>
+        <button type="button" onClick={() => this.setState({ searchQuery: '', books: [] })}>Clear</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.state.books.map(book => (
+            <tr key={book.key}>
+              <td>{book.title}</td>
+              <td>{book.author}</td>
+              <td>{book.publishDate}</td>
             </tr>
-          </thead>
-          <tbody>
-            {this.state.books.map(book => (
-              <tr key={book.key}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.publishDate}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
-
-export default HOME;
-
-
-
