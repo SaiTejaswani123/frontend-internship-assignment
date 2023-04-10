@@ -6,7 +6,8 @@ class Home extends Component {
     this.state = {
       searchType: "q",
       searchQuery: "",
-      books: []
+      books: [],
+      loading:false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,7 +29,9 @@ class Home extends Component {
     const offset = 0; // starting offset
     const limit = 10; // number of results per page
     const searchUrl = `https://openlibrary.org/search.json?${searchType}=${searchQuery}`;
-
+    
+    this.setState({ loading: true });
+    
     fetch(searchUrl)
       .then(response => response.json())
       .then(data => {
@@ -48,12 +51,14 @@ class Home extends Component {
       console.error("Error fetching search results:", error);
       this.setState({ books: [], searchQuery: "" }); // set books to an empty array and clear the search query on error
     });
+      .finally(() => this.setState({ loading: false }));
 }
   
   render() {
   return (
     <div>
       <form onSubmit={this.handleSubmit}>
+   
         <label>
           Search By:
           <select
@@ -74,6 +79,7 @@ class Home extends Component {
         <button type="submit">Search</button>
         <button type="button" onClick={() => this.setState({ searchQuery: '', books: [] })}>Clear</button>
       </form>
+      {this.state.loading && <div>Loading...</div>}
       <table>
         <thead>
           <tr>
