@@ -25,6 +25,8 @@ class Home extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { searchType, searchQuery } = this.state;
+    const offset = 0; // starting offset
+    const limit = 10; // number of results per page
     const searchUrl = `https://openlibrary.org/search.json?${searchType}=${searchQuery}`;
 
     fetch(searchUrl)
