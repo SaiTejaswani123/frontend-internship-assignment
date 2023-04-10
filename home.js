@@ -32,6 +32,10 @@ class Home extends Component {
     fetch(searchUrl)
       .then(response => response.json())
       .then(data => {
+        if (data.numFound === 0) {
+        this.setState({ books: [] }); // set books to an empty array if no results are found
+        return;
+      }
         const books = data.docs.map(book => ({
           title: book.title,
           author: book.author_name ? book.author_name.join(", ") : "Unknown",
@@ -40,8 +44,11 @@ class Home extends Component {
         }));
         this.setState({ books });
       })
-      .catch(error => console.log(error));
-  }
+      .catch(error => {
+      console.error("Error fetching search results:", error);
+      this.setState({ books: [], searchQuery: "" }); // set books to an empty array and clear the search query on error
+    });
+}
   
   render() {
   return (
